@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>To-Do List App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 500px;
+      padding-top: 50px;
+    }
+    #task-list {
+      margin-top: 20px;
+    }
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .task-text {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="text-center mb-4">To-Do List</h1>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="task-input" placeholder="Enter a new task" />
+      <button class="btn btn-primary" id="add-btn" type="button">Add</button>
+    </div>
+    <ul class="list-group" id="task-list"></ul>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const taskInput = document.querySelector('#task-input');
+      const addBtn = document.querySelector('#add-btn');
+      const taskList = document.querySelector('#task-list');
+
+      function createTaskItem(taskText) {
+        const li = document.createElement('li');
+        li.className = 'list-group-item task-item';
+       
+        const span = document.createElement('p');
+        span.className = 'task-text';
+        span.textContent = taskText;
+        li.appendChild(span);
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-danger btn-sm';
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', () => {
+          taskList.removeChild(li);
+        });
+        li.appendChild(deleteBtn);
+        return li;
+      }
+
+      function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText !== '') {
+          const taskItem = createTaskItem(taskText);
+          taskList.appendChild(taskItem);
+          taskInput.value = '';
+          taskInput.focus();
+        }
+      }
+
+      addBtn.addEventListener('click', addTask);
+
+      taskInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          addTask();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
